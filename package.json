@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.14",
+    "@ai-sdk/google-vertex": "^3.0.27",
     "@ai-sdk/react": "^2.0.47",
     "ai": "^5.0.47",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "vectra": "^0.11.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {

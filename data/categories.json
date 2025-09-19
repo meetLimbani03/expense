@@ -1,0 +1,4 @@
+{
+  Food: {
+    subcategories: [Dinner, Lunch, Breakfast, Snacks, Coffee, Groceries],
+    description: Food

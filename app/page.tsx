@@ -7,16 +7,17 @@ import { useState, useRef, useEffect } from 'react';
 export default function Page() {
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
-      api: '/api/chat',
+      api: '/api/chat-embeddings',
     }),
   });
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
   const scrollToBottom = () => {
+    console.log("scrollToBottom called");
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Only scroll when messages change AND status is not streaming
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -24,6 +25,7 @@ export default function Page() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && status === 'ready') {
+      console.log("message sent", {text: input});
       sendMessage({ text: input });
       setInput('');
     }
@@ -38,7 +40,7 @@ export default function Page() {
             AI Chat Assistant
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Powered by Google Gemini • Ask me anything!
+            Powered by Google Gemini + Embeddings • Smart expense extraction!
           </p>
         </div>
 
@@ -100,11 +102,10 @@ export default function Page() {
                     }`}
                   >
                     <div className="whitespace-pre-wrap">
-                      {message.parts.map((part, index) =>
-                        part.type === 'text' ? (
-                          <span key={index}>{part.text}</span>
-                        ) : null
-                      )}
+                      {message.parts.map((part, index) => {
+                        if (part.type === 'text') return <span key={index}>{part.text}</span>;
+                        return null;
+                      })}
                     </div>
                   </div>
 
@@ -120,7 +121,7 @@ export default function Page() {
                       </svg>
                     </div>
                   )}
-                </div>
+        </div>
               ))
             )}
 
@@ -187,8 +188,16 @@ export default function Page() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-6 text-sm text-gray-500 dark:text-gray-400">
-          Built with Next.js, AI SDK, and Google Gemini
+        <div className="text-center mt-6 space-y-2">
+          <a
+            href="/admin/categories"
+            className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm"
+          >
+            ⚙️ Manage Categories
+          </a>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Built with Next.js, AI SDK, and Google Gemini
+          </div>
         </div>
       </div>
     </div>
