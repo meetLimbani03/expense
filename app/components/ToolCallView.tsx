@@ -11,7 +11,7 @@ export function ToolCallView({ part, onAnswer }: { part: any; onAnswer?: (answer
 
   if (toolName === 'ask_for_input') {
     const callId = (part as any).toolCallId as string;
-    if (state === 'input-streaming') return <div>Asking a question…</div>;
+    if (state === 'input-streaming') return <div className="text-sm text-blue-800 dark:text-blue-200">Asking a question…</div>;
     if (state === 'input-available') {
       const prompt = (part as any)?.input?.prompt ?? "";
       return (
@@ -28,7 +28,7 @@ export function ToolCallView({ part, onAnswer }: { part: any; onAnswer?: (answer
   }
 
   return (
-    <div className="bg-blue-50 dark:bg-blue-900 p-3 rounded-lg mt-2">
+    <div className="bg-blue-50 dark:bg-blue-900/40 p-3 rounded-lg mt-2 border border-blue-200 dark:border-blue-800">
       <div className="text-xs font-semibold text-blue-800 dark:text-blue-200 mb-2">
         Tool: {toolName}
         {state ? <span className="ml-2 opacity-80">({state})</span> : null}

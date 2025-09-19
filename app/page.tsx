@@ -4,33 +4,25 @@ import { ChatPanel } from './components/ChatPanel';
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            AI Chat Assistant
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Powered by Google Gemini + Embeddings • Smart expense extraction!
-          </p>
+    <div className="container mx-auto max-w-5xl px-4 py-10">
+      <section className="mb-8 text-center">
+        <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200">
+          New
+          <span className="ml-2 opacity-80">Gemini + Embeddings powered categorization</span>
         </div>
+        <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          Extract and categorize expenses with AI
+        </h1>
+        <p className="mt-3 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          Paste receipts or statements and get structured categories instantly. Switch APIs to compare behavior.
+        </p>
+      </section>
 
-        <ChatPanel />
+      <ChatPanel />
 
-        {/* Footer */}
-        <div className="text-center mt-6 space-y-2">
-          <a
-            href="/admin/categories"
-            className="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm"
-          >
-            ⚙️ Manage Categories
-          </a>
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Built with Next.js, AI SDK, and Google Gemini
-          </div>
-        </div>
-      </div>
+      <section className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+        Tip: Visit the Admin panel to manage category taxonomy.
+      </section>
     </div>
   );
 }

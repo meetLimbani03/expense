@@ -16,6 +16,13 @@ const API_OPTIONS: ApiOption[] = [
   { label: "Embeddings (context)", value: "/api/chat-embeddings" },
 ];
 
+const SUGGESTIONS: string[] = [
+  "Summarize this receipt: Lunch at Bistro $18.40, Coffee $4.20, Tip $3.00",
+  "Categorize: Uber $23.50 on 05/02, Netflix $15.99 on 05/03",
+  "What are the top 3 categories from these expenses?",
+  "Extract merchant and total from: Walmart Supercenter 100 Main St $82.15",
+];
+
 export function ChatPanel() {
   const [apiPath, setApiPath] = useState<string>("/api/chat-embeddings");
   const { messages, sendMessage, status, addToolResult } = useChat({
@@ -39,27 +46,56 @@ export function ChatPanel() {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-        <div className="text-sm text-gray-600 dark:text-gray-300">API:</div>
-        <select
-          value={apiPath}
-          onChange={(e) => setApiPath(e.target.value)}
-          className="px-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600"
-        >
-          {API_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-600 dark:text-gray-300">API</span>
+          <div className="inline-flex rounded-xl p-1 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+            {API_OPTIONS.map((opt) => {
+              const active = apiPath === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setApiPath(opt.value)}
+                  className={`px-3 py-1.5 text-xs sm:text-sm rounded-lg transition ${
+                    active
+                      ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow'
+                      : 'text-gray-700 dark:text-gray-200 hover:bg-gray-200/60 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+          <span className={`inline-block h-2 w-2 rounded-full ${status === 'ready' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+          <span>{status === 'ready' ? 'Ready' : 'Working…'}</span>
+        </div>
       </div>
 
       <div className="h-[600px] overflow-y-auto p-6 space-y-6">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Start a conversation</h3>
-            <p className="text-gray-500 dark:text-gray-400 max-w-md">Ask me to extract expenses from your text.</p>
+            <p className="text-gray-500 dark:text-gray-400 max-w-md mb-4">Ask me to extract expenses from your text.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-2xl">
+              {SUGGESTIONS.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => sendMessage({ text: s })}
+                  className="text-left px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           messages.map((message) => (
-            <div key={message.id} className={`flex items-start ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div key={message.id} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              {message.role !== 'user' && (
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">AI</div>
+              )}
               <div
                 className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                   message.role === 'user'
@@ -70,7 +106,6 @@ export function ChatPanel() {
                 <div className="whitespace-pre-wrap">
                   {message.parts.map((part, index) => {
                     if (part.type === 'text') return <span key={index}>{part.text}</span>;
-                    // Render tool calls if any are present from the backend
                     return (
                       <ToolCallView
                         key={index}
@@ -84,6 +119,9 @@ export function ChatPanel() {
                   })}
                 </div>
               </div>
+              {message.role === 'user' && (
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white font-semibold">You</div>
+              )}
             </div>
           ))
         )}

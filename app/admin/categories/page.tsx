@@ -161,28 +161,25 @@ export default function CategoriesAdmin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="container mx-auto max-w-4xl px-4 py-8">
-          <div className="text-center">Loading categories...</div>
-        </div>
+      <div className="container mx-auto max-w-5xl px-4 py-10">
+        <div className="text-center">Loading categories...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto max-w-4xl px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Category Management
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Manage expense categories and subcategories
-          </p>
-        </div>
+    <div className="container mx-auto max-w-5xl px-4 py-10">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Category Management
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300">
+          Manage expense categories and subcategories
+        </p>
+      </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
           {/* Add New Category */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
@@ -348,17 +345,6 @@ export default function CategoriesAdmin() {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="text-center mt-6">
-          <a
-            href="/"
-            className="inline-flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
-          >
-            ← Back to Chat
-          </a>
-        </div>
       </div>
     </div>
   );
