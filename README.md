@@ -20,6 +20,29 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## AI SDK Setup
+
+This app includes a minimal chat UI wired to a streaming AI endpoint using the Vercel AI SDK and Google's Gemini.
+
+1. Create `.env.local` in the project root with your Google AI API key:
+
+```
+GOOGLE_GENERATIVE_AI_API_KEY=your_api_key_here
+```
+
+To get your Google AI API key:
+- Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+- Create a new API key
+- Copy and paste it into your `.env.local` file
+
+2. Start the dev server:
+
+```
+npm run dev
+```
+
+3. Open the app and ask a question. The UI in `app/page.tsx` uses `useChat` which calls the server route `app/api/chat/route.ts` for streaming responses.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
